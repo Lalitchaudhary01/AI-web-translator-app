@@ -1,10 +1,27 @@
 "use client";
 import Image from "next/image";
+import 'regenerator-runtime/runtime';
+import {
+  IconCopy,
+  IconStar,
+  IconThumbDown,
+  IconThumbUp,
+  IconVolume,
+} from "@tabler/icons-react";
+
 import React, { useState, ChangeEvent } from "react";
 import TextArea from "../components/Inputs/TextArea";
+import SpeechRecognitionIcon from "../components/SpeechRecognition/SpeechRecognition";
 
 export default function Home() {
   const [sourceText, setSourceText] = useState<string>("");
+
+  const handleAudioPlayback = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  };
+  
+
 
   return (
     <>
@@ -16,7 +33,7 @@ export default function Home() {
           <div className="max-w-[85rem] mx-auto px-4 sm:px-6 py-10 sm:py-25">
             <div className="text-center">
               <h1 className="text-4xl sm:text-6xl font-bold text-neutral-200">
-                Lingua <span className="text-[#f87315]">Speak</span>
+              NovaLingo  <span className="text-[#f87315]">Speak</span>
               </h1>
               <p className="mt-3 text-neutral-400">
                 LinguaSpeak: Bridging Voices, Connecting Worlds.
@@ -32,8 +49,20 @@ export default function Home() {
                         setSourceText(e.target.value)
                       }
                       placeholder="Source Language"
-                      aria-label="Source Language"
                     />
+                    <div className="flex flex-row justify-between w-full">
+                    <span className="cursor-pointer flex items-center space-x-2 flex-row">
+                      <SpeechRecognitionIcon setSourceText={setSourceText} />
+                      <IconVolume
+                        size={22}
+                        className="text-neutral-100"
+                        onClick={() => handleAudioPlayback(sourceText)}
+                      />
+                      {/* <FileUpload handleFileUpload={handleFileUpload} />
+                      <LinkPaste handleLinkPaste={handleLinkPaste} /> */}
+                    </span>
+
+                    </div>
                   </div>
                 </div>
               </div>
